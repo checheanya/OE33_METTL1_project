@@ -1,4 +1,4 @@
-# Mechanisms of the METTL1 knockout in the OE33 cell line
+# Mechanisms of the METTL1 knockout resistance in the OE33 cell line
 > _by Anna Chechenina, ESCI-UPF_ <br>
 > _completed at Milner Therapeutics Institute & Cambridge University_ <br>
 > _Jan - Jul 2024_ <br>
