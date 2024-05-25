@@ -1,0 +1,15 @@
+name: OE33_METTL1_project
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.10
+  - pip=23.1.2
+  - pip:
+      - pandas==2.2.1
+      - numpy==1.26.4
+      - seaborn==0.13.0
+      - matplotlib==3.9.0
+      - networkx==3.2.1
+      - biopython==1.80
+      - scipy==1.11.3
