@@ -246,13 +246,13 @@ celllines_pairs <- list('OE33_METTL1_KO_AE4_vs_OE33_Control_AB1',
 # GENES:
 for (i in seq_along(contrast_list_genes)) {
   export_all_results_sorted(contrast_list_genes[[i]],
-                            paste(output_dir, "Genes_", celllines_pairs[[i]], sep = ""))
+                            paste0(output_dir, "Genes_", celllines_pairs[[i]]))
 }
 
 # TRANSCRIPTS:
 for (i in seq_along(contrast_list_trs)) {
   export_all_results_sorted(contrast_list_trs[[i]],
-                            paste(output_dir, "Trs_", celllines_pairs[[i]], sep = ""))
+                            paste0(output_dir, "Trs_", celllines_pairs[[i]]))
 }
 
 ################ Converting results to dataframes, filtering ###################
@@ -268,8 +268,8 @@ filter_and_sort <- function(data_init, p_val_threshold = 0.05, logFC_threshold =
   return(data)
 }
 
-filtered_contrasts_g <- lapply(contrast_list_g, filter_and_sort)
-filtered_contrasts_t <- lapply(contrast_list_t, filter_and_sort)
+filtered_contrasts_g <- lapply(contrast_list_genes, filter_and_sort)
+filtered_contrasts_t <- lapply(contrast_list_trs, filter_and_sort)
 
 # Saving filtered results for each comparison
 for (i in seq_along(filtered_contrasts_t)) {
@@ -390,13 +390,13 @@ output_dir_img <-'./images/volcano_plots/edgeR/'
 # GENES:
 for (i in seq_along(contrast_list_genes)) {
   create_and_save_volcano_plot(contrast_list_genes[[i]],
-                            paste(output_dir_img, "Genes_", celllines_pairs[[i]], sep = ""))
+                            paste0(output_dir_img, "Genes_", celllines_pairs[[i]]))
 }
 
 # TRANSCRIPTS:
 for (i in seq_along(contrast_list_trs)) {
   create_and_save_volcano_plot(contrast_list_trs[[i]],
-                            paste(output_dir_img, "Trs_", celllines_pairs[[i]], sep = ""))
+                            paste0(output_dir_img, "Trs_", celllines_pairs[[i]]))
 }
 
 ############################# Saving names of top genes ########################
@@ -409,7 +409,7 @@ for (i in seq_along(contrast_list_trs)) {
   #return(data$gene_name)
 #}
 
-filter_and_names <- function(data_init, gene_names_for_tr = FALSE) {
+select_names <- function(data_init, gene_names_for_tr = FALSE) {
   if(!gene_names_for_tr){
     if(substr(rownames(data_init)[1], 4, 4) == "G") {
       return(data_init$gene_name) # returning gene names
@@ -421,18 +421,18 @@ filter_and_names <- function(data_init, gene_names_for_tr = FALSE) {
   }
 }
 
-filtered_contrasts_g_names <- lapply(deseq_raw_res_list_g, filter_and_sort)
-filtered_contrasts_t_names <- lapply(deseq_raw_res_list_t, filter_and_sort)
+filtered_contrasts_g_names <- lapply(filtered_contrasts_g, select_names)
+filtered_contrasts_t_names <- lapply(filtered_contrasts_t, select_names)
 
 # GENES:
 for (i in seq_along(filtered_contrasts_g_names)) {
   write.table(filtered_contrasts_g_names[[i]],
-              file = paste(output_dir,"genes/names/genes_",celllines_pairs[[i]],"_logfc05_pval005.txt"),
+              file = paste0(output_dir,"genes/names/genes_",celllines_pairs[[i]],"_logfc05_pval005.txt"),
               row.names = FALSE, col.names = FALSE, quote = FALSE)
 }
 # TRANSCRIPTS:
 for (i in seq_along(filtered_contrasts_t_names)) {
   write.table(filtered_contrasts_t_names[[i]],
-              file = paste(output_dir,"trs/names/trs_",celllines_pairs[[i]],"_logfc05_pval005.txt"),
+              file = paste0(output_dir,"trs/names/trs_",celllines_pairs[[i]],"_logfc05_pval005.txt"),
               row.names = FALSE, col.names = FALSE, quote = FALSE)
 }

@@ -158,11 +158,11 @@ dim(backgr_g)
 
 # GENES:
 sampleDists <- dist(t(assay(ddsg)))
-sampleDistMatrix <- as.matrix( sampleDists )
+sampleDistMatrix <- as.matrix(sampleDists)
 pheatmap(sampleDistMatrix,
          clustering_distance_rows=sampleDists,
          clustering_distance_cols=sampleDists,
-         main = "Heatmap of euclidean distances between samples, GENES")
+         main = "Heatmap of euclidean distances between samples\n GENES")
 
 # TRANSCRIPTS:
 sampleDists <- dist(t(assay(ddst)))
@@ -170,7 +170,7 @@ sampleDistMatrix <- as.matrix( sampleDists )
 pheatmap(sampleDistMatrix,
          clustering_distance_rows=sampleDists,
          clustering_distance_cols=sampleDists,
-         main = "Heatmap of euclidean distances between samples, TRANSCRIPTS")
+         main = "Heatmap of euclidean distances between samples\n TRANSCRIPTS")
 
 # MA plots
 plotMA(results(ddst), main = "MA Plot for transcripts", ylim=c(-4,4))
@@ -260,12 +260,12 @@ deseq_filtered_t_names <- lapply(deseq_filtered_t, filter_and_names)
 # GENES:
 for (i in seq_along(deseq_filtered_g_names)) {
   write.table(deseq_filtered_g_names[[i]],
-              file = paste(output_dir,"genes/names/genes_",celllines_pairs[[i]],"_logfc05_pval005.txt"),
+              file = paste0(output_dir,"genes/names/genes_",celllines_pairs[[i]],"_logfc05_pval005.txt"),
               row.names = FALSE, col.names = FALSE, quote = FALSE)
 }
 # TRANSCRIPTS:
 for (i in seq_along(deseq_filtered_t_names)) {
   write.table(deseq_filtered_t_names[[i]],
-              file = paste(output_dir,"transcripts/names/trs_",celllines_pairs[[i]],"_logfc05_pval005.txt"),
+              file = paste0(output_dir,"transcripts/names/trs_",celllines_pairs[[i]],"_logfc05_pval005.txt"),
               row.names = FALSE, col.names = FALSE, quote = FALSE)
 }
