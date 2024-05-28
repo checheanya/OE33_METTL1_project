@@ -6,8 +6,6 @@ library(dplyr)
 library(reshape2)
 library(tibble)
 library(tidyverse)
-library(Rtsne)
-library(umap)
 
 library(ggplot2)
 library(gplots)
