@@ -62,30 +62,35 @@ def parse_args():
     return parser.parse_args()
 
 
-#%% FUNCTIONS
+# Function to load pickle object 
+def load_obj(file_addr):
+    with open(file_addr+ '.pkl', 'rb') as f:
+        return pickle.load(f)
 
-# def load_obj(file_addr):
-#     with open(file_addr+ '.pkl', 'rb') as f:
-#         return pickle.load(f)
-    
+
+# Function to save pickle object
 def save_obj(obj, file_addr ):
-    "function to save pickle file"
     with open(file_addr + '.pkl', 'wb') as f:
         pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
 
+
+# Function to reformat iterable 
+# s -> (s0,s1), (s1,s2), (s2, s3), ...
 def pairwise(iterable):
-    "s -> (s0,s1), (s1,s2), (s2, s3), ..."
     a, b = itertools.tee(iterable)
     next(b, None)
     return zip(a, b)
 
+
 def make_shortest_path_sources_to_targets(pair, string_G):
-    '''
-    Function: Find shortest paths on STRING between all start/end protein combinations
-    :input: pair of start/end proteins
-    :return: edgelist of all shortest paths between start/end protein pair if existent
+    """
+    Function to find shortest paths on STRING between all start/end protein combinations
+    Args:
+        pair (tuple of str) - pair of start/end proteins
+    Returns:
+        edgelist of all shortest paths between start/end protein pair if existent
     ~ takes 4 min for an initial list of 43 proteins, i.e. 43x43 = ~1,850 combinations
-    '''
+    """
 
     # find shortest paths between start and end protein
     all_path_list = []
@@ -102,18 +107,23 @@ def make_shortest_path_sources_to_targets(pair, string_G):
     # return new edge list
     return all_path_list
 
+
 def mapping_genes_id_to(prot_list,id_from, id_to, species):
     mg = mygene.MyGeneInfo()
     return mg.querymany(prot_list, scopes=id_from, fields= id_to, species=species, as_dataframe=True, verbose = True)
 
+
 def calc_network_centrality_RWR(network, start_list, end_list, result_save_dir):
-    '''
-    Function: calculate eigenvector centrality, degree centrality
-    :input: network, membrane list as start list, nucleus list as end list, address
-    for output, thresholds for centralities and RWR
-    :return: csv file containing centrality and RWR-values for each node,
-    txt-files containing above threshold genes
-    '''
+    """
+    Function to calculate eigenvector centrality, degree centrality
+    Args:
+        network (networkx graph)
+        start_list, end_list (list) - start and end lists to  use as source and target nodes
+        result_save_dir (str) - path to save results
+    Returns:
+        csv file containing centrality and RWR-values for each node, txt-files containing above threshold genes
+    """
+    
     network_nodes = network.nodes()
 
     # eigenvector centrality
@@ -177,13 +187,20 @@ def calc_network_centrality_RWR(network, start_list, end_list, result_save_dir):
                                          PR_score[node], PRsub_score[node]]
 
     network_property_df.to_csv(result_save_dir)
-    
+
+
 def make_circular_plot_network(nodes, G_gene, address_network_plot, start_list):
-    '''
-    Function: make a circular plot of the network, save as tiff in visualisation folder
-    :input: network, list of nodes
-    :return: none
-    '''
+    """
+    Function to make a circular plot of the network, save as tiff in visualisation folder
+    Args:
+        nodes (list) - list of nodes to use
+        G_gene (networkx graph)
+        address_network_plot (str) - path to save the plot
+        start_list (list) - start nodes for highlighting
+    Returns:
+        none
+    """
+    
     color_map = []
     for node in nodes:
         if node in start_list:
@@ -210,7 +227,8 @@ def make_circular_plot_network(nodes, G_gene, address_network_plot, start_list):
                                           
     nx.draw_circular(G_gene, node_color=color_map, with_labels=False, font_size=18, font_color ='k', edge_color = 'grey')
     plt.savefig(address_network_plot)
-    
+
+
 #%% MAIN
 # NETWORK RECONSTRUCTION
 
