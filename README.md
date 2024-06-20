@@ -5,9 +5,16 @@
 > _supervised by Prof. Namshik Han and Dr. Gehad Youssef_
 
 
-## Introduction
+## Abstract
 
-## Results everview
+It has been demonstrated that 7-methylguanine (\textit{\textit{$m^7G$}}) modification of tRNA is essential for cell proliferation, and the lack of \textit{$m^7G$} may result in tRNA decay. It was recently shown that it can play a significant role in oncogenic mRNA translation and carcinoma progression by stabilizing tRNA. In particular, it was proved that METTL1-mediated \textit{$m^7G$} modification drives oncogenic transformation.
+One of the most often used models for esophageal cancer is the cell line OE33, which was established from the adenocarcinoma of the lower oesophagus, Barrett's metaplasia. Prior experiments in the lab demonstrated that OE33 cells are resistant to CRISPR and siRNA METTL1 knockout and do not exhibit any proliferation defect, but on the contrary, increase a proliferative activity.
+
+In this study, we explore the resistance mechanism of the OE33 cell line to the METTL1 knockout to discover any potential compensatory mechanisms that allow cells to remain highly proliferative. The project consists of several steps involving the analysis of multi-omics data. The analysis of the transcriptomics and proteomics data for wild-type and METTL1 knockout samples is performed to infer genes with altered expression and enriched pathways and build protein-protein interaction networks. tRNA-interacting proteins and methyltransferases are of particular interest since they might play essential roles in alternative tRNA modifications. Since METTL1 represents a promising anti-cancer target, this research has the potential to guide future therapeutic approaches and offers important insights into the mechanisms governing oncogene activity in esophageal cancer.
+
+## Methods overview
+
+<img alt="Alt text" src="./img/full_pipeline_scheme.png" width="800px">
 
 ## Directory structure
 
@@ -53,12 +60,8 @@ renv::restore()
 ```
 
 ### Python scripts
-The scipts were run on the cluster, with the following characteristics:
 
-```
-```
-
-Python version 3.10 was used, all the required Python libraries are specified in the `environment.yml` file and will be install once you set up the conda environment. 
+The network analysis was performed mainly using Python library networkx. Python version 3.10 was used, all the required Python libraries are specified in the `environment.yml` file and will be install once you set up the conda environment. 
 
 ## Contact info
 
