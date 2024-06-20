@@ -61,7 +61,7 @@ renv::restore()
 
 ### Python scripts
 
-The network analysis was performed mainly using Python library networkx. Python version 3.10 was used, all the required Python libraries are specified in the `environment.yml` file and will be install once you set up the conda environment. 
+The network analysis was performed mainly using Python library networkx. Python version 3.10 was used, all the required Python libraries are specified in the `environment.yml` file and will be installed once you set up the conda environment. 
 
 ## Contact info
 
