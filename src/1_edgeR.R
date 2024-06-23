@@ -10,6 +10,7 @@ library(Rtsne)
 library(umap)
 
 library(ggplot2)
+library(GGally)
 library(gplots)
 library(ggrepel)
 library(ggplotify)
@@ -436,3 +437,42 @@ for (i in seq_along(filtered_contrasts_t_names)) {
               file = paste0(output_dir,"trs/names/trs_",celllines_pairs[[i]],"_logfc05_pval005.txt"),
               row.names = FALSE, col.names = FALSE, quote = FALSE)
 }
+
+
+############################# Correlation plots ########################
+
+# Data preparation
+num_rows <- length(contrast_list_genes[[1]]$table$logFC)
+df <- data.frame(matrix(ncol = 4, nrow = num_rows))
+colnames(df) <- c("AE4_AB1", "AB16_AB1", "AE4_AE21", "AB16_AE21")
+df$AE4_AB1 <- contrast_list_genes[[1]]$table$logFC
+df$AB16_AB1 <- contrast_list_genes[[2]]$table$logFC
+df$AE4_AE21 <- contrast_list_genes[[3]]$table$logFC
+df$AB16_AE21 <- contrast_list_genes[[4]]$table$logFC
+
+
+# Function to fit the linear model
+lm_custom <- function(data, mapping, ...){
+  x_var <- as_label(mapping$x)
+  y_var <- as_label(mapping$y)
+  
+  # fittng the linear model
+  formula <- as.formula(paste(y_var, "~", x_var))
+  model <- lm(formula, data = data)
+  r_squared <- summary(model)$r.squared
+
+  p <- ggplot(data = data, mapping = mapping) +
+    geom_point(alpha = 0.3) +
+    geom_smooth(method = "lm", color = "blue", se = FALSE) +
+    annotate("text", x = -Inf, y = Inf, label = paste("R^2 =", round(r_squared, 3)),
+             hjust = -0.1, vjust = 1.1, size = 2.5, color = "blue")
+  return(p)
+}
+
+# Plotting pairwise correlations
+plot <- ggpairs(df, 
+        upper = list(continuous = wrap("cor", size = 5)),
+        lower = list(continuous = wrap(lm_custom)),
+        diag = list(continuous = wrap("densityDiag")))
+
+ggsave("rna_correlation_plot.png", plot, width = 10, height = 10, dpi = 500)
